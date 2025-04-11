@@ -33,11 +33,11 @@ class AppPages {
       page: () => const LoginView(),
       binding: LoginBinding(),
     ),
-    // GetPage(
-    //   name: _Paths.REGISTER,
-    //   page: () => const RegisterView(),
-    //   binding: RegisterBinding(),
-    // ),
+    GetPage(
+      name: _Paths.REGISTER,
+      page: () => const RegisterView(),
+      binding: RegisterBinding(),
+    ),
     GetPage(
       name: _Paths.DASHBOARD,
       page: () => const DashboardView(),

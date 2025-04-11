@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:lottie/lottie.dart';
-// import 'package:resepku_p5/app/modules/register/views/register_view.dart';
+import 'package:resepku_p5/app/modules/register/views/register_view.dart';
 
 import '../controllers/login_controller.dart';
 
@@ -87,26 +87,26 @@ class LoginView extends GetView<LoginController> {
             SizedBox(
               height: 10,
             ),
-            // Container(
-            //   height: 50,
-            //   width: 250,
-            //   decoration: BoxDecoration(
-            //     color: Colors.red,
-            //     borderRadius: BorderRadius.circular(20),
-            //   ),
-            //   child: TextButton(
-            //     onPressed: () {
-            //       Get.to(() => RegisterView());
-            //     },
-            //     child: const Text(
-            //       'Daftar',
-            //       style: TextStyle(
-            //         color: Colors.white,
-            //         fontSize: 25,
-            //       ),
-            //     ),
-            //   ),
-            // ),
+            Container(
+              height: 50,
+              width: 200,
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: TextButton(
+                onPressed: () {
+                  Get.to(() => RegisterView());
+                },
+                child: const Text(
+                  'Daftar',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 25,
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),

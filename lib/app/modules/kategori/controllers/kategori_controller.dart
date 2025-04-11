@@ -14,11 +14,11 @@ class KategoriController extends GetxController {
     super.onInit();
   }
 
- void fetchKategori() async {
+  void fetchKategori() async {
     try {
       isLoading(true);
       var response =
-          await http.get(Uri.parse('http://192.168.74.252:8000/api/kategori'));
+          await http.get(Uri.parse('http://192.168.0.52:8000/api/kategori'));
       if (response.statusCode == 200) {
         var jsonData = json.decode(response.body);
         var kategoriResponse = KategoriResponse.fromJson(jsonData);

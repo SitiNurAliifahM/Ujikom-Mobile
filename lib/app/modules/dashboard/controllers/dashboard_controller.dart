@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:resepku_p5/app/data/resep_response.dart';
 import 'package:resepku_p5/app/modules/kategori/views/kategori_view.dart';
-import 'package:resepku_p5/app/modules/profile/views/profile_view.dart';
 import 'package:resepku_p5/app/modules/dashboard/views/index_view.dart';
 import 'package:resepku_p5/app/modules/resep/views/resep_view.dart';
 
