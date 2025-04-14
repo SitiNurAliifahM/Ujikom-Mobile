@@ -11,10 +11,8 @@ class DashboardController extends GetxController {
   // final _getConnect = GetConnect();
   // var resepList = <Reseps>[].obs; // Gunakan RxList agar UI bisa update otomatis
   var isLoading = true.obs;
-  var userResepList = <ResepResponse>[].obs;
 
-
-  final token = GetStorage().read('token');
+  final token = GetStorage().read('access_token');
 
   void changeIndex(int index) {
     selectedIndex.value = index;
@@ -24,7 +22,7 @@ class DashboardController extends GetxController {
     IndexView(),
     ResepView(),
     // ProfileView(),
-    KategoriView(),
+    // KategoriView(),
   ];
 
   @override

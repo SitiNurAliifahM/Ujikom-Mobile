@@ -50,7 +50,7 @@ class ResepView extends GetView<ResepController> {
                           const BorderRadius.vertical(top: Radius.circular(16)),
                       child: resep.gambar != null
                           ? Image.network(
-                              'http://192.168.0.52:8000/gambars/resep/${resep.gambar}',
+                              'http://192.168.0.50:8000/gambars/resep/${resep.gambar}',
                               height: 180,
                               width: double.infinity,
                               fit: BoxFit.cover,

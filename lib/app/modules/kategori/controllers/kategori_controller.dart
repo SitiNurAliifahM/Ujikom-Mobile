@@ -18,7 +18,7 @@ class KategoriController extends GetxController {
     try {
       isLoading(true);
       var response =
-          await http.get(Uri.parse('http://192.168.0.52:8000/api/kategori'));
+          await http.get(Uri.parse('http://192.168.0.50:8000/api/kategori'));
       if (response.statusCode == 200) {
         var jsonData = json.decode(response.body);
         var kategoriResponse = KategoriResponse.fromJson(jsonData);

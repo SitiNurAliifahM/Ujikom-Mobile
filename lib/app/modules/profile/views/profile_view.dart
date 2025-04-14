@@ -11,7 +11,7 @@ class ProfileView extends GetView<ProfileController> {
     return Scaffold(
       backgroundColor: HexColor('#e8ecd7'),
       appBar: AppBar(
-        backgroundColor: HexColor('#8aa29e'),
+        backgroundColor: HexColor('#ffff'),
         title: const Text('Profil Saya'),
         centerTitle: true,
         actions: [
