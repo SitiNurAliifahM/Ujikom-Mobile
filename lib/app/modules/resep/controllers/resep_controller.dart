@@ -36,6 +36,30 @@ class ResepController extends GetxController {
     }
   }
 
+  void fetchResepByKategori(int idKategori) async {
+    try {
+      isLoading(true);
+      var response = await http.get(
+        Uri.parse('http://192.168.0.50:8000/api/resep/kategori/$idKategori'),
+      );
+      if (response.statusCode == 200) {
+        var jsonData = json.decode(response.body);
+        var resepResponse = (jsonData as List)
+            .map((data) => ResepResponse.fromJson(data))
+            .toList();
+
+        resepList.value = resepResponse;
+      } else {
+        Get.snackbar("Error", "Gagal mengambil resep kategori");
+      }
+    } catch (e) {
+      Get.snackbar("Error", e.toString());
+    } finally {
+      isLoading(false);
+    }
+  }
+
+
   @override
   void onReady() {
     super.onReady();

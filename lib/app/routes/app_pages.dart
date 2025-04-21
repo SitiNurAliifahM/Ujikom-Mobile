@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:resepku_p5/app/modules/resep/views/detail_resep_view.dart';
 
 import '../modules/dashboard/bindings/dashboard_binding.dart';
 import '../modules/dashboard/views/dashboard_view.dart';
@@ -39,7 +40,7 @@ class AppPages {
       binding: RegisterBinding(),
     ),
     GetPage(
-      name: _Paths.DASHBOARD,
+      name: '/dashboard',
       page: () => const DashboardView(),
       binding: DashboardBinding(),
     ),
@@ -58,5 +59,10 @@ class AppPages {
       page: () => const ResepView(),
       binding: ResepBinding(),
     ),
+    GetPage(
+      name: '/detail-resep',
+      page: () => const DetailResepView(),
+    ),
+
   ];
 }

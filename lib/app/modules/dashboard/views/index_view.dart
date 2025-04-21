@@ -3,170 +3,200 @@ import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:resepku_p5/app/modules/dashboard/controllers/dashboard_controller.dart';
 import 'package:resepku_p5/app/modules/kategori/controllers/kategori_controller.dart';
+import 'package:resepku_p5/app/modules/resep/controllers/resep_controller.dart';
 
-class IndexView extends GetView<DashboardController> {
+class IndexView extends StatelessWidget {
   const IndexView({super.key});
+
+  final backgroundColor1 = Colors.white;
 
   @override
   Widget build(BuildContext context) {
-    final DashboardController controller = Get.put(DashboardController());
+    final controller = Get.put(DashboardController());
     final kategoriController = Get.put(KategoriController());
+    final resepController = Get.put(ResepController());
+
+    // Tambahkan selectedKategori agar dropdown bisa berubah
+    final RxString selectedKategori = 'all'.obs;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (kategoriController.kategoriList.isEmpty) {
+        kategoriController.fetchKategori();
+      }
+      if (resepController.resepList.isEmpty) {
+        resepController.fetchResep();
+      }
+    });
 
     return Scaffold(
       backgroundColor: HexColor('#e8ecd7'),
       appBar: AppBar(
-        title: const Text('Beranda Pengguna'),
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.account_circle),
-            onPressed: () {
-              Get.toNamed('/profile');
-            },
-          ),
-        ],
+        backgroundColor: backgroundColor1,
+        automaticallyImplyLeading: false,
+        title: const Text("Selamat Datang di Beranda Pengguna"),
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 4,
-                      spreadRadius: 1,
-                    ),
-                  ],
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          RichText(
-                            text: const TextSpan(
-                              style: TextStyle(
-                                  fontSize: 20, color: Colors.black87),
-                              children: [
-                                TextSpan(
-                                  text: 'Halo, selamat datang di ResepKu! ',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                                TextSpan(text: '🍽️'),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            'Temukan berbagai resep menarik dan simpan favoritmu di sini!',
-                            style: TextStyle(fontSize: 16, color: Colors.grey),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Image.asset(
-                      'assets/images/logo.png',
-                      width: 100,
-                      fit: BoxFit.cover,
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 24),
-              const Text(
-                'Kategori Resep',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 12),
-
-              // Kategori Grid
-              Obx(() {
-                if (kategoriController.isLoading.value) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-
-                if (kategoriController.kategoriList.isEmpty) {
-                  return const Center(child: Text('Tidak ada data kategori'));
-                }
-
-                return GridView.builder(
-                  shrinkWrap: true,
-                  physics:
-                      const NeverScrollableScrollPhysics(),
-                  padding: const EdgeInsets.only(top: 8),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 12,
-                    mainAxisSpacing: 12,
-                    childAspectRatio: 1,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
                   ),
-                  itemCount: kategoriController.kategoriList.length,
-                  itemBuilder: (context, index) {
-                    final kategori = kategoriController.kategoriList[index];
-                    return Container(
+                ],
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        Text(
+                          'Halo, selamat datang di ResepKu!🍽️',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF334155),
+                          ),
+                        ),
+                        SizedBox(height: 8),
+                        Text(
+                          'Temukan berbagai resep menarik dan simpan favoritmu di sini!',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Color(0xFF64748B),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  SizedBox(
+                    height: 150, // ubah ukuran sesuai kebutuhan
+                    width:
+                        150, // tambahkan jika ingin kontrol penuh atas ukuran
+                    child: Image.asset(
+                      'assets/images/logo.png',
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 24),
+            const Text(
+              'Pilih Kategori',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 12),
+            Obx(() {
+              if (kategoriController.isLoading.value) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              return DropdownButton<String>(
+                isExpanded: true,
+                value: selectedKategori.value,
+                items: [
+                  const DropdownMenuItem(
+                    value: 'all',
+                    child: Text('Semua Kategori'),
+                  ),
+                  ...kategoriController.kategoriList.map((kategori) {
+                    return DropdownMenuItem(
+                      value: kategori.id.toString(),
+                      child: Text(kategori.namaKategori ?? ''),
+                    );
+                  }).toList(),
+                ],
+                onChanged: (value) {
+                  selectedKategori.value = value!;
+                  if (value == 'all') {
+                    resepController.fetchResep();
+                  } else {
+                    resepController.fetchResepByKategori(int.parse(value));
+                  }
+                },
+              );
+            }),
+            const SizedBox(height: 24),
+            const Text(
+              'Daftar Resep',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 12),
+            Obx(() {
+              if (resepController.isLoading.value) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              if (resepController.resepList.isEmpty) {
+                return const Center(
+                    child: Text('Tidak ada resep yang ditemukan'));
+              }
+
+              return GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: resepController.resepList.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3, // jumlah kolom dalam 1 baris
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10,
+                  mainAxisExtent: 120, // mengatur tinggi
+                ),
+                itemBuilder: (context, index) {
+                  final resep = resepController.resepList[index];
+                  return GestureDetector(
+                    onTap: () {
+                      Get.toNamed('/detail-resep',
+                          arguments:
+                              resep); // 'resep' harus bertipe ResepResponse
+                    },
+                    child: Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10),
-                        boxShadow: const [
+                        boxShadow: [
                           BoxShadow(
-                            color: Colors.black12,
-                            blurRadius: 3,
-                            offset: Offset(0, 2),
+                            color: Colors.black.withOpacity(0.05),
+                            blurRadius: 5,
+                            offset: const Offset(0, 3),
                           ),
                         ],
                       ),
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(10),
-                        onTap: () {
-                          Get.snackbar(
-                            'Kategori Dipilih',
-                            kategori.namaKategori ?? "Nama tidak tersedia",
-                          );
-                        },
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(Icons.category,
-                                size: 28,
-                                color: Color.fromARGB(255, 37, 167, 56)),
-                            const SizedBox(height: 6),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 4),
-                              child: Text(
-                                kategori.namaKategori ?? "Nama tidak tersedia",
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
+                      padding: const EdgeInsets.all(8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Icon(Icons.food_bank,
+                              size: 20, color: Colors.green),
+                          const SizedBox(height: 6),
+                          Text(
+                            resep.namaResep ?? '',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13,
                             ),
-                          ],
-                        ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
                       ),
-                    );
-                  },
-                );
-              }),
-            ],
-          ),
+                    ),
+                  );
+                },
+              );
+            }),
+          ],
         ),
       ),
     );
